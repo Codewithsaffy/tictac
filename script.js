@@ -17,7 +17,7 @@ const changeTurn = () => (turn === "X" ? "O" : "X");
 // Function to check for a winner
 const checkWin = () => {
   let boxtext = document.getElementsByClassName("boxtext");
-  let wins = [
+  const wins = [
     [0, 1, 2, 24, 42, 0],
     [3, 4, 5, 24, 132, 0],
     [6, 7, 8, 24, 266, 0],
@@ -27,16 +27,19 @@ const checkWin = () => {
     [0, 4, 8, 18, 131, 45],
     [2, 4, 6, 26, 131, 135],
   ];
-  
+
   wins.forEach((e) => {
     if (
       boxtext[e[0]].innerText === boxtext[e[1]].innerText &&
       boxtext[e[2]].innerText === boxtext[e[1]].innerText &&
       boxtext[e[0]].innerText !== ""
-      ) {
+    ) {
       document.querySelector(".info").innerText = `PLAYER ${boxtext[e[0]].innerText} WON`;
       isgameover = true;
       victorySound.play();
+      document
+      .querySelector(".imginfo")
+      .getElementsByTagName("img")[0].style.width = "200px";
       document.querySelector(".line").style.transform = `translate(${e[3]}px, ${e[4]}px) rotate(${e[5]}deg)`;
       document.querySelector(".line").style.width = "218px";
     }
@@ -73,17 +76,20 @@ Array.from(document.getElementsByClassName("box")).forEach((element) => {
 document.getElementById("reset").addEventListener("click", () => {
   Array.from(document.querySelectorAll(".boxtext")).forEach((boxtext) => {
     boxtext.innerText = "";
+    document
+      .querySelector(".imginfo")
+      .getElementsByTagName("img")[0].style.width = "0px";
   });
 
   isgameover = false;
   turn = "X";
   document.querySelector(".info").innerText = `Turn for ${turn}`;
   document.querySelector(".line").style.width = "0px";
-  
+
   if (!isgameover) {
     gameoverm.play();
   }
 });
-music1.play();
 
 // Start the background music when the game loads
+music1.play();
